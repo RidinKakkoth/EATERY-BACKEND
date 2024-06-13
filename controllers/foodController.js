@@ -62,4 +62,27 @@ const removeFood=async(req,res)=>{
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 }
-module.exports={addFood,listFood,removeFood}
+
+
+const updateListedStatus=async(req,res)=>{
+    try {
+        
+         const food_id=req.params.id
+
+        const food=await foodModel.findById(food_id)
+
+        if (!food) {
+            return res.status(404).json({ success: false, message: 'Food item not found' });
+          }
+
+          food.listed = !food.listed;
+          await food.save();
+
+          res.json({ success: true, message: 'Food listed status updated', listed: food.listed });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ success: false, message: 'Error updating food listed status' });
+        }
+      };
+
+module.exports={addFood,listFood,removeFood,updateListedStatus}
