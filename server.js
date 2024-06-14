@@ -2,6 +2,9 @@ const express=require('express')
 const cors=require('cors')
 const connectDB = require('./config/db')
 const foodRouter = require('./routes/foodRoute')
+const userRouter = require('./routes/userRoute')
+
+require('dotenv').config()
 
 //app config
 const app=express()
@@ -22,6 +25,7 @@ connectDB()
 
 app.use('/api/food',foodRouter)
 app.use("/images",express.static('uploads'))
+app.use('/api/user',userRouter)
 
 app.get('/',(req,res)=>{
 
@@ -29,5 +33,6 @@ app.get('/',(req,res)=>{
 })
 
 
-app.listen(port,()=>{console.log(`running on${port}`);})
+app.listen(port,()=>{
+    console.log(`running on${port}`)})
 
