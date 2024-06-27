@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
+const createToken=(userId)=>{
+    return jwt.sign({id:userId},process.env.JWT_SECRET)
+}
 //login user
 
 const loginUser = async (req, res) => {
@@ -25,7 +28,7 @@ const loginUser = async (req, res) => {
             return res.json({success:false,message:"Invalid credentials"})
         }
 
-        const token=createToken(isMatch._id)
+        const token=createToken(user._id)
 
         res.json({success:true,token})
 
@@ -37,9 +40,6 @@ const loginUser = async (req, res) => {
 };
 
 
-const createToken=(id)=>{
-    return jwt.sign({id},process.env.JWT_SECRET)
-}
 
 //register user
 
