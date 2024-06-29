@@ -5,6 +5,7 @@ const foodRouter = require('./routes/foodRoute')
 const userRouter = require('./routes/userRoute')
 const cartRouter = require('./routes/cartRoute')
 const orderRouter = require('./routes/orderRoute')
+const adminRouter = require('./routes/adminRoute')
 
 
 require('dotenv').config()
@@ -29,6 +30,7 @@ connectDB()
 app.use('/api/food',foodRouter)
 app.use("/images",express.static('uploads'))
 app.use('/api/user',userRouter)
+app.use('/api/admin',adminRouter)
 app.use('/api/cart',cartRouter)
 app.use('/api/order',orderRouter)
 
