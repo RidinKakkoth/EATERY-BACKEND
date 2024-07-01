@@ -11,9 +11,8 @@ const createToken=(adminId)=>{
 
 const loginAdmin = async (req, res) => {
     const {password, email } = req.body;
-
     try {
-        if (!email || !password) {
+      if (!email || !password) {    
             return res.status(400).json({ success: false, message: "All fields are required" });
           }
 

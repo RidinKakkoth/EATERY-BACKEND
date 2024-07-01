@@ -119,7 +119,33 @@ const updateStatus=async(req,res)=>{
         
     }
 }
+const topSelling=async(req,res)=>{
+    try {
+       
+        const topSellingCategory=await orderModel.aggregate([
+            {$unwind:'$items'},
+            {$group:{_id:'$items.category',totalQuantity:{$sum:"$items.quantity"},
+        image:{$first:"$items.image"}}},
+            {$sort:{totalQuantity:-1}},
+            {$limit:5}
+        ])
+        const topSellingItem=await orderModel.aggregate([
+            {$unwind:'$items'},
+            {$group:{_id:"$items.name",totalQuantity:{$sum:"$items.quantity"},
+        image:{$first:"$items.image"}}},
+            {$sort:{totalQuantity:-1}},
+            {$limit:5}
+        ])
+       
+      
+        res.json({success:true,message:"Status Updated",topItem:topSellingItem,topCategory:topSellingCategory})
+    } catch (error) {
+        console.error(error)
+        res.json({success:false,message:"error"})   
+        
+    }
+}
 
 
 
-module.exports={placeOrder,verifyOrder,userOrders,listOrders,updateStatus}
+module.exports={placeOrder,verifyOrder,userOrders,listOrders,updateStatus,topSelling}

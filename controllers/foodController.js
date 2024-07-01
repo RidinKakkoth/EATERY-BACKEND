@@ -1,6 +1,44 @@
 const foodModel=require('../models/foodModel')
 const fs=require('fs')
 
+
+//update food details
+
+const updateFood=async(req,res)=>{
+    
+    try {
+    let image_filename;
+    let itemId=req.params.id
+    const{name,description,price,category}=req.body
+    
+
+    const existingFood = await foodModel.findById(itemId);
+
+    if (!existingFood) {
+      return res.status(404).json({ success: false, message: "Food not found" });
+    }
+
+    if (req.file) {
+        image_filename = req.file.filename;
+      } else {
+        image_filename = existingFood.image; // Keep the existing image filename
+      }
+
+    existingFood.name = name || existingFood.name;
+    existingFood.description = description || existingFood.description;
+    existingFood.price = price || existingFood.price;
+    existingFood.category = category || existingFood.category;
+    existingFood.image = image_filename;
+
+    await existingFood.save();
+    
+     res.json({success:true,message:"Food Updated"})
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({success:false,message:"Error"})
+    }
+
+}
 //add food item
 
 const addFood=async(req,res)=>{
@@ -85,4 +123,4 @@ const updateListedStatus=async(req,res)=>{
         }
       };
 
-module.exports={addFood,listFood,removeFood,updateListedStatus}
+module.exports={addFood,listFood,removeFood,updateListedStatus,updateFood}

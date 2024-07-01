@@ -1,7 +1,7 @@
 const express=require('express')
 const multer=require('multer')
 
-const{addFood,listFood,removeFood, updateListedStatus}=require('../controllers/foodController')
+const{addFood,listFood,removeFood, updateListedStatus,updateFood}=require('../controllers/foodController')
 
 
 const foodRouter=express.Router()
@@ -18,6 +18,7 @@ const storage=multer.diskStorage({
 const upload=multer({storage:storage})
 
 foodRouter.post('/add',upload.single('image'),addFood)
+foodRouter.post('/update/:id',upload.single('image'),updateFood)
 foodRouter.get('/list',listFood)
 foodRouter.post('/remove',removeFood)
 foodRouter.patch('/listed/:id',updateListedStatus)
