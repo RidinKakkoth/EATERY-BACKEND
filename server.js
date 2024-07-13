@@ -6,6 +6,7 @@ const userRouter = require('./routes/userRoute')
 const cartRouter = require('./routes/cartRoute')
 const orderRouter = require('./routes/orderRoute')
 const adminRouter = require('./routes/adminRoute')
+const googleRouter = require('./routes/googleAuthRoute')
 
 
 require('dotenv').config()
@@ -33,6 +34,8 @@ app.use('/api/user',userRouter)
 app.use('/api/admin',adminRouter)
 app.use('/api/cart',cartRouter)
 app.use('/api/order',orderRouter)
+app.use('/api/auth',googleRouter)
+
 
 app.get('/',(req,res)=>{
 
